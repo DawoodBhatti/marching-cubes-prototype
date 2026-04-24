@@ -1,0 +1,10 @@
+[gd_resource type="Environment" format=3 uid="uid://cp5iqqlndvhxy"]
+
+[sub_resource type="Sky" id="Sky_0vuym"]
+
+[resource]
+background_mode = 1
+background_color = Color(0.98670095, 0.9791128, 0.9557037, 1)
+background_energy_multiplier = 0.87
+sky = SubResource("Sky_0vuym")
+reflected_light_source = 2

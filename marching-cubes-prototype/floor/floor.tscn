@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://7eoor6eb78ss"]
+
+[ext_resource type="Script" uid="uid://bwveenoy40h0b" path="res://floor/floor.gd" id="1_irt4v"]
+
+[node name="Floor" type="Node3D" unique_id=1930642960]
+script = ExtResource("1_irt4v")
+
+[node name="Mesh3D" type="MeshInstance3D" parent="." unique_id=1139220257]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1312133946]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=664835424]
