@@ -1,8 +1,9 @@
 extends Node3D
 
-@export var chunk_size: int = 20
+@export var chunk_size: int = 1
 @export var iso_level: float = 0.0
 @export var radius: float = 5.0
+
 
 func _ready():
 	var chunk = $Chunk

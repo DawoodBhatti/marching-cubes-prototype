@@ -1,10 +1,12 @@
 extends SDF
-class_name SDFSquare
+class_name SDFCube
 
 @export var center: Vector3 = Vector3.ZERO
 @export var side_length: float = 1.0
 
 var h = side_length * 0.5
+
+#this is the practice example but i need to debug it...
 
 #define vertices
 var v1 : Vector3 = center + Vector3(-h, -h, -h)

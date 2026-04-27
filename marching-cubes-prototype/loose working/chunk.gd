@@ -30,7 +30,7 @@ func generate(size: int, iso: float, radius: float):
 
 	_march(field, size, iso)
 
-	_build_mesh()
+	#_build_mesh()
 
 # ---------------------------------------------------------
 # 1. Density sampling (object SDF)
@@ -178,7 +178,7 @@ func _build_mesh():
 	var aabb = mesh.get_aabb()
 	
 	#idk why this doesnt show
-	spawn_debug_sphere(aabb.position, 100.0, Color(0.0, 1.0, 0.0, 1.0))
+	spawn_debug_sphere(aabb.position, 1.0, Color(0.0, 1.0, 0.0, 1.0))
 	
 	$MeshInstance3D.transform.origin.x = -aabb.position.x * $MeshInstance3D.scale.x
 	$MeshInstance3D.transform.origin.y = -aabb.position.y * $MeshInstance3D.scale.y
@@ -222,8 +222,14 @@ func _sample_field(size: int) -> Array:
 			field[x][y].resize(size + 1)
 
 			for z in range(size + 1):
-				var p = Vector3(x, y, z) - Vector3(half, half, half)
+				# --- FIX: sample at voxel centers, not corners ---
+				var p = Vector3(x + 0.5, y + 0.5, z + 0.5) - Vector3(half, half, half)
 				field[x][y][z] = _sample_density(p)
+
+				if field[x][y][z] < 1:
+					print("spawning point at :", p)
+					spawn_debug_point(p)
+					spawn_debug_sphere(p, 0.1)
 
 	# -------------------------------------------------
 	# Diagnostic: print min/max density AFTER sampling
@@ -238,9 +244,10 @@ func _sample_field(size: int) -> Array:
 				if d < min_d: min_d = d
 				if d > max_d: max_d = d
 
-	print("Density range: ", min_d, " .. ", max_d)
+	#print("Density range: ", min_d, " .. ", max_d)
 
 	return field
+
 
 
 
@@ -273,3 +280,31 @@ func spawn_debug_sphere(
 	sphere.global_transform = Transform3D(Basis(), position)
 
 	return sphere
+
+
+func spawn_debug_point(
+		position: Vector3 = Vector3.ZERO,
+		color: Color = Color.YELLOW
+	) -> MeshInstance3D:
+
+	var mesh := ImmediateMesh.new()
+
+	mesh.surface_begin(Mesh.PRIMITIVE_POINTS)
+	mesh.surface_set_color(color)
+	mesh.surface_add_vertex(Vector3.ZERO)
+	mesh.surface_end()
+
+	var inst := MeshInstance3D.new()
+	inst.mesh = mesh
+
+	# Make the point visible (default point size is tiny)
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.vertex_color_use_as_albedo = true
+	mat.point_size = 8.0  # pixel size on screen
+	inst.set_surface_override_material(0, mat)
+
+	add_child(inst)
+	inst.global_position = position
+
+	return inst
