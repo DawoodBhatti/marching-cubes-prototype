@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cjdubx0euja5i"]
+
+[ext_resource type="Script" uid="uid://ligrx3fd5mgc" path="res://main.gd" id="1_272bh"]
+[ext_resource type="PackedScene" uid="uid://kobeoevtfe5o" path="res://player/player.tscn" id="4_lquwl"]
+[ext_resource type="Environment" uid="uid://cp5iqqlndvhxy" path="res://marching cubes/white environment.tres" id="5_7mycd"]
+[ext_resource type="Script" uid="uid://p5s5aecmhqi6" path="res://marching cubes/debug.gd" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://7eoor6eb78ss" path="res://floor/floor.tscn" id="6_7mycd"]
+
+[node name="Root" type="Node" unique_id=1331235816]
+script = ExtResource("1_272bh")
+
+[node name="Player" parent="." unique_id=100889864 instance=ExtResource("4_lquwl")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2051583580]
+environment = ExtResource("5_7mycd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=321897317]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28, 0)
+
+[node name="Floor" parent="." unique_id=701217394 instance=ExtResource("6_7mycd")]
+
+[node name="Debug" type="Node" parent="." unique_id=732074115]
+script = ExtResource("5_lquwl")
