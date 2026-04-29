@@ -2,6 +2,7 @@ extends Node
 
 @onready var sphere : SDF = SDFSphere.new()
 @onready var cube : SDF = SDFCube.new()
+@onready var cube1 : SDF = SDFCubeDuplicate.new()
 
 
 func print_all_nodes(node: Node) -> void:
@@ -127,30 +128,33 @@ func visualise_SDF_cube(debug_color : Color):
 	
 	print("visualising cube...")
 	
-	var size : float = 10.0
-	var step: float = 0.5
-	var half : float = size / 2.0
-	var x : float = -half - step
-	var y: float = -half - step 
+	var length : float = 7.0  #length of cube to sample
+	var step: float = 0.5 #step 
+	var half : float = length / 2.0
+	var x : float = -half
+	var y: float = -half 
 	var z: float = -half
 	var p : Vector3
 	var sample : float
+	var positions : PackedVector3Array = PackedVector3Array()
 
 	while x <= half :
-		x += step
 		y= -half   # RESET y each x-iteration
-		
 		while y <= half:
-			y += step
-			z= -half   # RESET z each y-iteration
-
+			z= -half  # RESET z each y-iteration
 			while z <=half :
+			   
 				p=Vector3(x, y, z)
-				sample = cube.sample(p)
+				sample = cube1.sample(p)
+				if 0 > sample:
+					positions.append(p)
 				
-				#print("x, y, z: ", x , ", ", y , ", ", z)
-				#print("sample val: ", sample)
-				#print()
-				if sample < 1.0:
-					spawn_debug_sphere(p, 0.1, debug_color)
+					print("x, y, z: ", x , ", ", y , ", ", z)
+					print("sample val: ", sample)
+					print()
+					
 				z += step
+			y += step
+		x += step
+		
+	spawn_debug_multimesh(positions,spawn_debug_sphere())

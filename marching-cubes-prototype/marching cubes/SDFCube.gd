@@ -39,7 +39,7 @@ var s6 : Vector3 = (v4 + v3 + v7 + v8) / 4.0 # Top face (y = +h)
 func sample(p: Vector3) -> float:
 	
 	var surfaces : Array = [s1, s2, s3, s4, s5, s6]
-	var i : int
+	var i : int = 0 
 	var closest_surface : Vector3
 	var perp_dist : float
 	var dist : float
@@ -58,50 +58,45 @@ func sample(p: Vector3) -> float:
 	#calculate perpendicular distance
 	if closest_surface == s1:
 		#perpendicular distance along z axis
-		if p.z < s2.z:
-			perp_dist = sqrt((p.x - s1.x)**2 + (p.y - s1.y)**2)
-		elif p.z > s2.z:
-			perp_dist = -sqrt((p.x - s1.x)**2 + (p.y - s1.y)**2)
-			
+		if p.z < s1.z:
+			perp_dist = (s1.z - p.z)
+		elif p.z > s1.z:
+			perp_dist = -(s1.z - p.z)
 
 	elif closest_surface == s2:
 		#perpendicular distance along z axis
 		if p.z < s2.z:
-			perp_dist = sqrt((p.x - s1.x)**2 + (p.y - s1.y)**2)
+			perp_dist = (s2.z - p.z)
 		elif p.z > s2.z:
-			perp_dist = -sqrt((p.x - s1.x)**2 + (p.y - s1.y)**2)
-			
+			perp_dist = -(s2.z - p.z)
 			
 	elif closest_surface == s3:
 		#perpendicular distance along x axis
-		if p.x < s2.x:
-			perp_dist = sqrt((p.y - s1.y**2 + (p.z - s1.z)**2))
-		elif p.x > s2.x:
-			perp_dist = -sqrt((p.y - s1.y)**2 + (p.z - s1.z)**2)
-		
-		
+		if p.x < s3.x:
+			perp_dist = (s3.x - p.x)
+		elif p.x > s3.x:
+			perp_dist = -(s3.x - p.x)
+
 	elif closest_surface == s4:
 		#perpendicular distance along x axis
-		if p.x < s2.x:
-			perp_dist = sqrt((p.y - s1.y**2 + (p.z - s1.z)**2))
-		elif p.x > s2.x:
-			perp_dist = -sqrt((p.y - s1.y)**2 + (p.z - s1.z)**2)
-		
+		if p.x < s4.x:
+			perp_dist = (s4.x - p.x)
+		elif p.x > s4.x:
+			perp_dist = -(s4.x - p.x)
 		
 	elif closest_surface == s5:
 		#perpendicular distance along y axis
-		if p.y < s2.y:
-			perp_dist = sqrt((p.x - s1.x)**2 + (p.z - s1.z)**2)
-		elif p.y < s2.y:
-			perp_dist = sqrt((p.x - s1.x)**2 + (p.z - s1.z)**2)
-		
+		if p.y < s5.y:
+			perp_dist = (s5.y - p.y)
+		elif p.y < s5.y:
+			perp_dist = -(s5.y - p.y)
 		
 	elif closest_surface == s6:
 			#perpendicular distance along y axis
-		if p.y < s2.y:
-			perp_dist = sqrt((p.x - s1.x)**2 + (p.z - s1.z)**2)
-		elif p.y < s2.y:
-			perp_dist = sqrt((p.x - s1.x)**2 + (p.z - s1.z)**2)
+		if p.y < s6.y:
+			perp_dist = (s6.y - p.y)
+		elif p.y < s6.y:
+			perp_dist = -(s5.y - p.y)
 		
 		
 	if true and perp_dist< 0: 

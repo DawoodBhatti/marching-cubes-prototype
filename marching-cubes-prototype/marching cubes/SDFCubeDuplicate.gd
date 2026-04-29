@@ -2,7 +2,7 @@ extends SDF
 class_name SDFCubeDuplicate
 
 @export var center: Vector3 = Vector3.ZERO
-@export var side_length: float = 1.0
+@export var side_length: float = 10.0
 
 var h = side_length * 0.5
 var half_extents = Vector3(h, h, h)
