@@ -48,7 +48,7 @@ func spawn_debug_multimesh(positions : PackedVector3Array, base_mesh : SphereMes
 	
 	for i in range (0,count):
 		var offset = positions[i]
-		print("offset: ", offset)
+		#print("offset: ", offset)
 		mmesh.set_instance_transform(i, translations.translated(offset))
 
 
@@ -85,40 +85,41 @@ func spawn_debug_sphere(
 	return mesh
 
 
-#overspawning spheres
-#underspawning shape...
+
 func visualise_SDF_sphere(debug_color : Color):
 	
 	print("visualising sphere...\n")
 	
-	var size : float = 1.0
-	var step: float = 0.5
-	var half : float = size / 2.0
-	var x : float = -half - step
-	var y: float = -half - step 
+	var length : float = 15.0  #length of cube to sample
+	var step: float = 0.25 #step 
+	var half : float = length / 2.0
+	var x : float = -half
+	var y: float = -half 
 	var z: float = -half
 	var p : Vector3
 	var sample : float
 	var positions : PackedVector3Array = PackedVector3Array()
 
 	while x <= half :
-		x += step
 		y= -half   # RESET y each x-iteration
 		while y <= half:
-			y += step
-			z= -half   # RESET z each y-iteration
+			z= -half  # RESET z each y-iteration
 			while z <=half :
 			   
 				p=Vector3(x, y, z)
 				sample = sphere.sample(p)
-				positions.append(p)
+				if 0 > sample:
+					positions.append(p)
 				
-				#print("x, y, z: ", x , ", ", y , ", ", z)
-				#print("sample val: ", sample)
-				#print()
+					#print("x, y, z: ", x , ", ", y , ", ", z)
+					#print("sample val: ", sample)
+					#print()
+					
 				z += step
-				
-		spawn_debug_multimesh(positions,spawn_debug_sphere())
+			y += step
+		x += step
+		
+	spawn_debug_multimesh(positions,spawn_debug_sphere())
 
 
 
